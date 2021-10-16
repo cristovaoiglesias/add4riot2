@@ -43,13 +43,17 @@ other_pipes = [pipe for pipe in nlp.pipe_names if pipe not in pipe_exceptions]
 from spacy.util import minibatch, compounding
 import random
 
+losses = {}
 # Begin training by disabling other pipeline components
 with nlp.disable_pipes(*other_pipes) :
 
-  sizes = compounding(1.0, 4.0, 1.001)
+  sizes = compounding(1.0, 100.0, 1.001)
   # Training for 30 iterations
-  for itn in range(30):
+  for itn in range(200):
     # shuffle examples before training
+    print("\n\ninteration",itn)
+    print("Losses", losses)
+
     random.shuffle(TRAIN_DATA)
     # batch up the examples using spaCy's minibatch
     batches = minibatch(TRAIN_DATA, size=sizes)
@@ -59,7 +63,7 @@ with nlp.disable_pipes(*other_pipes) :
       texts, annotations = zip(*batch)
       # Calling update() over the iteration
       nlp.update(texts, annotations, sgd=optimizer, drop=0.35, losses=losses)
-      print("Losses", losses)
+      #print("Losses", losses)
 
 
 
