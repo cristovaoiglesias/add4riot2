@@ -18,3 +18,6 @@
 ## Evaluation in a Spacy NER model
 * https://stackoverflow.com/questions/44827930/evaluation-in-a-spacy-ner-model
 
+## Repositories
+* https://github.com/explosion
+* spacy-models (github) - https://github.com/explosion/spacy-models
