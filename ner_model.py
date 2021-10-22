@@ -43,16 +43,20 @@ other_pipes = [pipe for pipe in nlp.pipe_names if pipe not in pipe_exceptions]
 from spacy.util import minibatch, compounding
 import random
 
+losses2plot=[]
+e2plot=[]
 losses = {}
 # Begin training by disabling other pipeline components
 with nlp.disable_pipes(*other_pipes) :
 
   sizes = compounding(1.0, 100.0, 1.001)
   # Training for 30 iterations
-  for itn in range(200):
+  for itn in range(1000):
     # shuffle examples before training
-    print("\n\ninteration",itn)
-    print("Losses", losses)
+    # print("interation",itn)
+    # print("Losses",losses)
+
+    # print("Losses",losses)
 
     random.shuffle(TRAIN_DATA)
     # batch up the examples using spaCy's minibatch
@@ -64,8 +68,9 @@ with nlp.disable_pipes(*other_pipes) :
       # Calling update() over the iteration
       nlp.update(texts, annotations, sgd=optimizer, drop=0.35, losses=losses)
       #print("Losses", losses)
-
-
+    print('epoch',itn,losses["ner"])
+    losses2plot.append(losses["ner"])
+    e2plot.append(itn)
 
 def evaluate(ner_model, examples):
     scorer = Scorer()
@@ -83,11 +88,16 @@ for ent in doc.ents:
   print(ent.text,ent.label_)
 
 print("n\n\ Precision (p), Recall(r) and F-score(f) \n\n")
-
 # import pdb; pdb.set_trace()
-
 results = evaluate(nlp, TEST_DATA)
-
 print(results['ents_per_type'])
+
+import matplotlib.pyplot as plt
+
+plt.plot(e2plot, losses2plot)
+plt.xlabel("Epochs")
+plt.ylabel("Loss")
+plt.show()
+
 
 # {'Device': {'p': 76.19047619047619, 'r': 34.04255319148936, 'f': 47.05882352941176}}
