@@ -46,6 +46,14 @@ import random
 losses2plot=[]
 e2plot=[]
 losses = {}
+
+from datetime import datetime
+
+now = datetime.now()
+
+current_time = now.strftime("%H:%M:%S")
+print("Current Time =", current_time)
+
 # Begin training by disabling other pipeline components
 with nlp.disable_pipes(*other_pipes) :
 
@@ -94,10 +102,21 @@ print(results['ents_per_type'])
 
 import matplotlib.pyplot as plt
 
-plt.plot(e2plot, losses2plot)
-plt.xlabel("Epochs")
-plt.ylabel("Loss")
-plt.show()
+# plt.plot(e2plot, losses2plot)
+# plt.xlabel("Epochs")
+# plt.ylabel("Loss")
+# plt.show()
+# now = datetime.now()
 
-
+current_time = now.strftime("%H:%M:%S")
+print("Current Time =", current_time)
 # {'Device': {'p': 76.19047619047619, 'r': 34.04255319148936, 'f': 47.05882352941176}}
+
+
+
+
+
+#
+# ("In addition, almost all come with a laser sensor, which picks up emissions from a laser gun as used in portable traps.", [(36, 48, "Device")]),
+# ("The sensor could be inserted into tissue, excited with a laser pointer, and provide real-time, continuous monitoring of blood glucose level.", [(4, 10, "Device")]),
+# ("The temperature of the water bath is controlled by a microprocessor and a temperature sensor.", [(74, 92, "Device")])
